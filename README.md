@@ -10,7 +10,6 @@ Requirements:
  - mysql 5.7
 
 First run:
- - download zip with project files except vendor and extract it
  - run from root folder:
    to download and setup vendor with autoload
     - composer install
