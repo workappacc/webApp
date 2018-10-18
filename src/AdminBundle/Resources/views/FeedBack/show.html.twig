@@ -1,0 +1,33 @@
+{% extends '@Admin/base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="count">
+            Total feedbqacks count is {{ pagination.getTotalItemCount }}
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'Id', 'f.id') }}</th>
+                <th{% if pagination.isSorted('f.Name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Name', 'f.name') }}</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            {% for feedback in pagination %}
+                <tr>
+                    <td>{{ feedback.id }}</td>
+                    <td>{{ feedback.name}}</td>
+                    <td>{{ feedback.email }}</td>
+                    <td>
+                        <a href="{{ path('feedback_show',{id:feedback.id}) }}">Show</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+{% endblock %}

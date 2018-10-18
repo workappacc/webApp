@@ -1,0 +1,28 @@
+{% extends '@Admin/base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <a style="margin-top:10px" class="btn btn-info" href="{{ path('admin_users_add') }}">Add User</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>email</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <a href="{{ path('edit_user', {id: user.id}) }}">Edit</a>
+                    <a href="{{ path('delete_user', {id: user.id}) }}">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+{% endblock %}

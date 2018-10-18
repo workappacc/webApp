@@ -1,0 +1,12 @@
+sbs_adminlte:
+    resource: "@SbSAdminLTEBundle/Resources/config/routing.xml"
+
+front:
+    resource: "@FrontBundle/Controller/"
+    type: annotation
+#    prefix:   /
+
+app:
+    resource: '@AdminBundle/Controller/'
+    type: annotation
+

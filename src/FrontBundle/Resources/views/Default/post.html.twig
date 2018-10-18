@@ -1,0 +1,23 @@
+{% extends '@Front/base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="post-header">
+            <h1>{{ post.title }}</h1>
+            {% if post.image %}
+                <img width="300px" src="{{ asset('uploads/posts/images/') }}{{ post.image }}">
+            {% endif %}
+            <span>Created - {{ post.createdAt|date }}</span>
+            <span>Updated - {% if post.updatedAt %}{{ post.updatedAt|date }}{% endif %}</span>
+            <span>Author - {% if post.user %}{{ post.user.username }}{% endif %}</span>
+        </div>
+        <div class="well">
+            <p>{{ post.content }}</p>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+

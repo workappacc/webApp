@@ -1,0 +1,63 @@
+{% extends '@Admin/base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+
+    <a style="margin-top:10px" class="btn btn-info" href="{{ path('post_add') }}">Add post</a>
+
+    <div class="count">
+        Total posts count is {{ pagination.getTotalItemCount }}
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'Id', 'p.id') }}</th>
+            <th{% if pagination.isSorted('p.Title') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Title', 'p.title') }}</th>
+            <th>image</th>
+            {#<th>Content</th>#}
+            {% if is_granted('ROLE_ADMIN') %}
+                <th>{{ knp_pagination_sortable(pagination, 'Owner', 'u.username') }}</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <th>{{ knp_pagination_sortable(pagination, 'Status', 'p.status') }}</th>
+            {% else %}
+                <th>Status</th>
+            {% endif %}
+        </tr>
+        </thead>
+        {% for post in pagination %}
+            <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.title}}</td>
+                <td>
+                    {% if post.image %}
+                    <img width="50px" src="{{ asset('uploads/posts/images/') }}{{ post.image }}">
+                    {% endif %}
+                {#<td>{{ post.content }}</td>#}
+                {% if is_granted('ROLE_ADMIN') %}
+                    {% if post.user %}
+                        <td>{{ post.user.username }}</td>
+                    {% else %}
+                        <td> - </td>
+                    {% endif %}
+                    <td>{{ post.createdAt|date }}</td>
+                    <td>{% if post.updatedAt %}{{ post.updatedAt|date}}{% endif %}</td>
+                {% endif %}
+                <th>{{ post.status}}</th>
+                <th>
+                    <a href="{{ path('show_post',{id:post.id}) }}">Show</a>
+                    <a href="{{ path('edit_post', {id:post.id}) }}" >Edit</a>
+                    <a href="{{ path('delete_post', {id:post.id}) }}" >Delete</a>
+                </th>
+            </tr>
+        {% endfor %}
+
+    </table>
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+{% endblock %}

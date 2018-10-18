@@ -1,0 +1,24 @@
+{% extends '@Front/base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    {% if posts|length %}
+        {% for post in posts %}
+            <div class="page-header">
+                {% if post.image %}
+                    <a href="{{ path('front_post_show',{id:post.id}) }}"><img width="300px" src="{{ asset('uploads/posts/images/') }}{{ post.image }}"></a>
+                {% endif %}
+            </div>
+            <div class="well">
+                <h1><a href="{{ path('front_post_show',{id:post.id}) }}">{{ post.title }}</a></h1>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>There are no published posts</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+
+

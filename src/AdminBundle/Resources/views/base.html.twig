@@ -1,0 +1,34 @@
+{% extends '@SbSAdminLTE/Layout/base.html.twig' %}
+
+{% block admin_lte_header %}
+    <header class="main-header">
+        <div class="pull-left"><h4 style="color: white; margin-left:10px">Admin Dashboard</h4></div>
+        <nav class="navbar navbar-static-top">
+
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <div class="navbar-custom-menu">
+                <div class="pull-right">
+                    <a href="{{ path('logout') }}" style="margin-top: 8px;" class="btn btn-default">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+{% endblock %}
+
+{% block admin_lte_sidebar %}
+    <aside class="main-sidebar">
+        <section class="sidebar">
+        <ul class="sidebar-menu" data-widget="tree">
+            <li {% if app.request.pathInfo == "/admin/posts" %}class="active"{% endif %}><a href="{{ path('admin_posts') }}"><i class="fa fa-link"></i> <span>Posts</span></a></li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li {% if app.request.pathInfo == "/admin/users" %}class="active"{% endif %}><a href="{{ path('admin_users') }}"><i class="fa fa-link"></i> <span>Users</span></a></li>
+            {% endif %}
+            <li {% if app.request.pathInfo == "/admin/feedbacks" %}class="active"{% endif %}><a href="{{ path('feedbacks_show') }}"><i class="fa fa-link"></i> <span>FeedBacks</span></a></li>
+        </ul>
+        </section>
+    </aside>
+{% endblock %}
+
+
