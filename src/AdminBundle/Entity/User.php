@@ -29,6 +29,8 @@ class User implements UserInterface, \Serializable
      */
     private $id;
 
+    private $activeRole;
+
     /**
      * @var string
      *
@@ -257,6 +259,22 @@ class User implements UserInterface, \Serializable
     public function setPosts($posts)
     {
         $this->posts = $posts;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActiveRole()
+    {
+        return $this->activeRole;
+    }
+
+    /**
+     * @param mixed $rolesList
+     */
+    public function setActiveRole($activeRole)
+    {
+        $this->activeRole = $activeRole;
     }
 }
 

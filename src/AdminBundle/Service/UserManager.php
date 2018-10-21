@@ -32,16 +32,15 @@ class UserManager
 
     public function addUser(User $user)
     {
-        $role = $this->container->get('AdminBundle\Service\RoleManager')->isRoleExists('ROLE_MANAGER');
+
+        $role = $this->container->get('AdminBundle\Service\RoleManager')->isRoleExists($user->getActiveRole());
         if (!$role) {
-            $role = new Role('ROLE_MANAGER');
+            $role = new Role($user->getActiveRole());
         }
 
         $this->em->persist($role);
 
         $user->addRole($role);
-        $user->setUsername($user->getUsername());
-        $user->setEmail($user->getEmail());
         $password = $this->container->get('security.password_encoder')
             ->encodePassword(
                 $user,
@@ -58,17 +57,14 @@ class UserManager
             $user,
             $user->getPlainPassword()
         );
-        $user->setUsername($user->getUsername());
         $user->setPassword($password);
-        $user->setEmail($user->getEmail());
 
         $this->em->persist($user);
         $this->em->flush();
     }
 
-    public function deleteUser($id)
+    public function deleteUser(User $user)
     {
-        $user = $this->em->getRepository(User::class)->find($id);
         $this->em->remove($user);
         $this->em->flush();
     }

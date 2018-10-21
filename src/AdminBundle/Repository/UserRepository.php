@@ -15,7 +15,8 @@ class UserRepository extends EntityRepository
     public function getAllUsers()
     {
         $result = $this->createQueryBuilder('u')
-            ->select('u')
+            ->select('u', 'r')
+            ->join('u.roles', 'r')
             ->getQuery()
             ->getArrayResult();
 

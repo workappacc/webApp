@@ -2,7 +2,12 @@
 # https://symfony.com/doc/current/security.html
 security:
     role_hierarchy:
-        ROLE_ADMIN: [ROLE_MANAGER]
+        ROLE_ADMIN: [ROLE_MANAGER, ROLE_FEEDBACK_MANAGER]
+        ROLE_MANAGER: [ROLE_FEEDBACK_MANAGER]
+
+    access_decision_manager:
+        strategy: unanimous
+        allow_if_all_abstain: false
 
     encoders:
         Symfony\Component\Security\Core\User\User:

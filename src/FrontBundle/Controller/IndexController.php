@@ -2,8 +2,8 @@
 
 namespace FrontBundle\Controller;
 
+use AdminBundle\Service\PostManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends Controller
@@ -14,9 +14,9 @@ class IndexController extends Controller
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction()
+    public function indexAction(PostManager $postManager)
     {
-        $posts = $this->get('AdminBundle\Service\PostManager')->getPublishedPosts();
+        $posts = $postManager->getPublishedPosts();
 
         return $this->render('@Front/Default/index.html.twig', [
             'posts' => $posts
@@ -27,11 +27,11 @@ class IndexController extends Controller
      * 
      * @Route("/show/{id}", name="front_post_show")
      */
-    public function showAction($id)
+    public function showAction($id, PostManager $postManager)
     {
-        $post = $this->get('AdminBundle\Service\PostManager')->getPublishedPost($id);
+        $post = $postManager->getPublishedPost($id);
         if (!$post) {
-            return $this->redirectToRoute('homepage');
+            throw $this->createNotFoundException();
         }
 
         return $this->render('@Front/Default/post.html.twig', [

@@ -13,6 +13,8 @@ services:
         # this means you cannot fetch services directly from the container via $container->get()
         # if you need to do this, you can override this setting on individual services
         public: true
+        bind:
+            $targetDirectory: '%images_directory%'
 
     # makes classes in src/AppBundle available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -31,10 +33,15 @@ services:
 
     FrontBundle\:
         resource: '../../src/FrontBundle/*'
-        autowire: false
+        autowire: true
         # you can exclude directories or files
         # but if a service is unused, it's removed anyway
         exclude: '../../src/FrontBundle/{Entity,Repository,Tests, Service}'
+        bind:
+            $host: '%mq_host%'
+            $port: '%mq_port%'
+            $user: '%mq_user%'
+            $password: '%mq_password%'
 
     # controllers are imported separately to make sure they're public
     # and have a tag that allows actions to type-hint services
@@ -42,20 +49,3 @@ services:
         resource: '../../src/FrontBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
-    # add more services, or override services that need manual wiring
-    # AppBundle\Service\ExampleService:
-    #     arguments:
-    #         $someArgument: 'some_value'
-
-    AdminBundle\Service\FileUploader:
-        arguments:
-            $targetDirectory: '%images_directory%'
-
-
-    app.services.queue_manager:
-        class: FrontBundle\Service\QueueManager
-        arguments: ['@service_container', '%mq_host%', '%mq_port%', '%mq_user%','%mq_password%']
-        public: true
-
-    FrontBundle\Service\FeedBackManager:
-        arguments: ['@doctrine.orm.entity_manager']
