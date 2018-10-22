@@ -17,7 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
-    images_directory: /web/uploads/posts/images
+    images_directory: uploads/posts/images
     redis_address: 'localhost'
 
     mq_user: guest
