@@ -21,6 +21,7 @@ First run:
    creates tables
     - php bin/console doctrine:schema:update --force
 
+
    create admin user with login=admin password=admin
     - php bin/console app:create-admin-user
 
@@ -29,7 +30,6 @@ First run:
 
    for add feedbacks from contact form to your database use console this
     - php bin/console app:get-feedbacks
-
 
 
 
