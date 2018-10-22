@@ -21,9 +21,9 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('_title', TextType::class)
-            ->add('_content', TextareaType::class)
-            ->add('_status', ChoiceType::class, ['choices' => [
+            ->add('title', TextType::class)
+            ->add('content', TextareaType::class)
+            ->add('status', ChoiceType::class, ['choices' => [
                 'New' => 'New', 'Published' => 'Published']
             ])
             ->add('imageFile', FileType::class, ['required' => false])

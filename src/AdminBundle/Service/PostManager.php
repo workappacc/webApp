@@ -38,31 +38,21 @@ class PostManager
             $fileName = $fileUploader->upload();
         }
 
-        $post->setTitle($post->getTitle());
         $post->setUser($user);
-        $post->setContent($post->getContent());
         $post->setImage($fileName);
         $post->setCreatedAt(new \DateTime());
-        $post->setUpdatedAt(null);
-        $post->setStatus($post->getStatus());
 
         $this->em->persist($post);
         $this->em->flush();
     }
     
-    public function getPost($id, $isAdmin, $userId = 0)
+    public function getPost($id)
     {
-        if ($isAdmin) {
-            return $this->em->getRepository(Post::class)->getPost($id);    
-        } else {
-            return $this->em->getRepository(Post::class)->getUserPost($id, $userId);    
-        }
-        
+        return $this->em->getRepository(Post::class)->getPost($id);
     }
 
-    public function deletePost($id)
+    public function deletePost(Post $post)
     {
-        $post = $this->em->getRepository(Post::class)->find($id);
         $this->em->remove($post);
         $this->em->flush();
     }
@@ -70,10 +60,6 @@ class PostManager
     public function editPost(Post $post, $fileName, FileUploader $fileUploader)
     {
         $newFile = $post->getImageFile();
-
-        $post->setTitle($post->getTitle());
-        $post->setContent($post->getContent());
-        $post->setStatus($post->getStatus());
         $post->setUpdatedAt(new \DateTime());
 
         if ($newFile) {

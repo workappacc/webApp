@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace FrontBundle\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
 use FrontBundle\Entity\FeedBack;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -14,11 +16,16 @@ class QueueManager
     private $password;
     private $port;
     private $connection;
-    private $container;
+    private $em;
     
-    public function __construct(ContainerInterface $containerInterface, $host, $port, $user, $password)
-    {
-        $this->container = $containerInterface;
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        string $host,
+        int $port,
+        string $user,
+        string $password
+    ) {
+        $this->em = $entityManager;
         $this->host = $host;
         $this->port = $port;
         $this->user = $user;
@@ -52,15 +59,14 @@ class QueueManager
             $feedBackData = json_decode($msg->getBody(), true);
 
             if (isset($feedBackData['name']) && isset($feedBackData['email']) && isset($feedBackData['content'])) {
-                $em = $this->container->get('doctrine.orm.default_entity_manager');
-                
+
                 $feedBack = new FeedBack();
                 $feedBack->setName($feedBackData['name']);
                 $feedBack->setEmail($feedBackData['email']);
                 $feedBack->setContent($feedBackData['content']);
                 
-                $em->persist($feedBack);
-                $em->flush();
+                $this->em->persist($feedBack);
+                $this->em->flush();
 
                 echo 'New feedback is saved' . PHP_EOL;
             }

@@ -1,1 +1,9 @@
 {% extends '@Admin/base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="alert alert-block">
+            <h1>Hello <b>{{ app.user.username }}</b> and welcome to admin area!!!</h1>
+        </div>
+    </div>
+{% endblock %}

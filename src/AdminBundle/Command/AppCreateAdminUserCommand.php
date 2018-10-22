@@ -4,11 +4,9 @@ namespace AdminBundle\Command;
 
 use AdminBundle\Entity\Role;
 use AdminBundle\Entity\User;
-use AdminBundle\Entity\UsersRoles;
+use AdminBundle\Service\RoleManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class AppCreateAdminUserCommand extends ContainerAwareCommand
@@ -29,9 +27,9 @@ class AppCreateAdminUserCommand extends ContainerAwareCommand
         ]);
 
         if (!$admin) {
-            $role = $container->get('AdminBundle\Service\RoleManager')->isRoleExists('ROLE_ADMIN');
+            $role = $container->get('AdminBundle\Service\RoleManager')->isRoleExists(RoleManager::ROLE_ADMIN);
             if (!$role) {
-                $role = new Role('ROLE_ADMIN');
+                $role = new Role(RoleManager::ROLE_ADMIN);
             }
 
             $em->persist($role);

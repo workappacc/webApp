@@ -2,7 +2,12 @@
 # https://symfony.com/doc/current/security.html
 security:
     role_hierarchy:
-        ROLE_ADMIN: [ROLE_MANAGER]
+        ROLE_ADMIN: [ROLE_MANAGER, ROLE_FEEDBACK_MANAGER]
+        ROLE_MANAGER: [ROLE_FEEDBACK_MANAGER]
+
+    access_decision_manager:
+        strategy: unanimous
+        allow_if_all_abstain: false
 
     encoders:
         Symfony\Component\Security\Core\User\User:
@@ -26,7 +31,6 @@ security:
         main:
             pattern: ^/
             provider: db_provider
-
             anonymous: ~
             # activate different ways to authenticate
 
@@ -36,6 +40,8 @@ security:
             # https://symfony.com/doc/current/security/form_login_setup.html
             form_login:
                 login_path: login
+                username_parameter: username
+                password_parameter: password
                 check_path: login
                 default_target_path: admin_homepage
             logout: true

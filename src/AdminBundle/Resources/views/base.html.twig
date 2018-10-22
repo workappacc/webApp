@@ -21,7 +21,9 @@
     <aside class="main-sidebar">
         <section class="sidebar">
         <ul class="sidebar-menu" data-widget="tree">
+            {% if is_granted('ROLE_MANAGER') %}
             <li {% if app.request.pathInfo == "/admin/posts" %}class="active"{% endif %}><a href="{{ path('admin_posts') }}"><i class="fa fa-link"></i> <span>Posts</span></a></li>
+            {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
                 <li {% if app.request.pathInfo == "/admin/users" %}class="active"{% endif %}><a href="{{ path('admin_users') }}"><i class="fa fa-link"></i> <span>Users</span></a></li>
             {% endif %}

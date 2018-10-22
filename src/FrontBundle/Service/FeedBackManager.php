@@ -19,10 +19,6 @@ class FeedBackManager
 
     public function saveFeedBack(FeedBack $feedBack)
     {
-        $feedBack->setName($feedBack->getName());
-        $feedBack->setEmail($feedBack->getEmail());
-        $feedBack->setContent($feedBack->getContent());
-
         $this->em->persist($feedBack);
         $this->em->flush();
     }
