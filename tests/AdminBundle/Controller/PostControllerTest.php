@@ -52,7 +52,7 @@ class PostControllerTest extends WebTestCase
             'PHP_AUTH_USER' => 'admin',
             'PHP_AUTH_PW'   => 'admin',
         ));
-        $this->assertTrue($this->client->getResponse()->isRedirect());
+        $this->assertSame(404, $this->client->getResponse()->getStatusCode());
 
         $posts = $this->container->get('AdminBundle\Service\PostManager')->getPosts(true)->getArrayResult();
         

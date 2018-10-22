@@ -35,7 +35,10 @@ class DefaultControllerTest extends WebTestCase
     public function testShow()
     {
         $this->client->request('GET', '/show/non-exist-id');
-        $this->assertTrue($this->client->getResponse()->isRedirect());
+        $this->assertEquals(
+            404,
+            $this->client->getResponse()->getStatusCode()
+        );
     }
     
     public function testShowPosts()

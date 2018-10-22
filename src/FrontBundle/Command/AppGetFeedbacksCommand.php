@@ -28,7 +28,7 @@ class AppGetFeedbacksCommand extends ContainerAwareCommand
             'feedBack saver',
             '============'
         ]);
-        $this->container->get('app.services.queue_manager')->getFromQueue();
+        $this->container->get('FrontBundle\Service\QueueManager')->getFromQueue();
     }
 
     /**
