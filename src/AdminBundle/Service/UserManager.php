@@ -5,7 +5,7 @@ namespace AdminBundle\Service;
 use AdminBundle\Entity\Role;
 use AdminBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserManager
 {
@@ -15,14 +15,25 @@ class UserManager
     private $em;
 
     /**
-     * @var ContainerInterface $container
+     * @var RoleManager $roleManager
      */
-    private $container;
+    private $roleManager;
 
-    public function __construct(EntityManagerInterface $entityManagerInterface, ContainerInterface $containerInterface)
-    {
+    /**
+     * @var UserPasswordEncoderInterface $encoderInterface
+     */
+    private $encoderInterface;
+    
+
+    public function __construct(
+        EntityManagerInterface $entityManagerInterface,
+        RoleManager $roleManager,
+        UserPasswordEncoderInterface $encoderInterface
+    
+    ) {
         $this->em = $entityManagerInterface;
-        $this->container = $containerInterface;
+        $this->roleManager = $roleManager;
+        $this->encoderInterface = $encoderInterface;
     }
     
     public function getAllUsers()
@@ -33,7 +44,7 @@ class UserManager
     public function addUser(User $user)
     {
 
-        $role = $this->container->get('AdminBundle\Service\RoleManager')->isRoleExists($user->getActiveRole());
+        $role = $this->roleManager->isRoleExists($user->getActiveRole());
         if (!$role) {
             $role = new Role($user->getActiveRole());
         }
@@ -41,7 +52,7 @@ class UserManager
         $this->em->persist($role);
 
         $user->addRole($role);
-        $password = $this->container->get('security.password_encoder')
+        $password = $this->encoderInterface
             ->encodePassword(
                 $user,
                 $user->getPlainPassword()
@@ -53,7 +64,7 @@ class UserManager
 
     public function editUser(User $user)
     {
-        $password = $this->container->get('security.password_encoder')->encodePassword(
+        $password = $this->encoderInterface->encodePassword(
             $user,
             $user->getPlainPassword()
         );
