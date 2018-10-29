@@ -26,7 +26,20 @@
                         <li {% if app.request.pathInfo == "/contact" %}class="active"{% endif %}><a href="{{ path('front_contact') }}">Contact</a></li>
                     </ul>
                     <ul class="nav navbar-nav pull-right">
-                        <li {% if app.request.pathInfo == "/login" %}class="active"{% endif %}><a href="{{ path('login') }}">Login</a></li>
+                        <li {% if app.request.pathInfo == "/login" %}class="active"{% endif %}>
+                            <a href="{% if app.user %}
+                                        {{ path('logout') }}
+                                     {% else %}
+                                        {{ path('login') }}
+                                     {% endif %}
+                            ">
+                                {% if app.user %}
+                                    Logout
+                                {% else %}
+                                    Login
+                                {% endif %}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
