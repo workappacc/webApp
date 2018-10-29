@@ -31,6 +31,8 @@ First run:
    for add feedbacks from contact form to your database use console this
     - php bin/console app:get-feedbacks
 
-
+For css and js apply changes do next commands
+    - php bin/console assets:install
+    - php bin/console cache:clear
 
 

@@ -1,0 +1,19 @@
+.blog-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 165px;
+    line-height: 60px;
+
+    padding: 2.5rem 0;
+    color: #999;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-top: .05rem solid #e5e5e5;
+
+}
+
+.main-layout-block {
+    margin-top: 80px;
+    margin-bottom: 200px;
+}
